@@ -22,7 +22,7 @@ class LogoCar extends StatelessWidget {
               backgroundColor: Colors.grey.withOpacity(0.2),
               child: Image.asset(
                 logoCar,
-                width: 30,
+                width: nameCar=='Jaguar'? 60 :  30,
               ),
             ),
           ),

@@ -6,6 +6,7 @@ import 'package:car_app/src/firebase/firestore.dart';
 import 'package:car_app/src/models/car.dart';
 import 'package:car_app/src/pages/deals_page/top_deals_page.dart';
 import 'package:car_app/src/configs/widget/discount_car.dart';
+import 'package:car_app/src/pages/home/components/components.dart';
 import 'package:car_app/src/pages/home/components/information_car.dart';
 import 'package:car_app/src/configs/widget/logocar.dart';
 import 'package:car_app/src/configs/widget/text_largest.dart';
@@ -17,6 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../models/car_model.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -25,44 +28,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
-  final PageController _controller = PageController(initialPage: 0);
-  int isIndex=0;
-  bool isActive=false;
-  int indexCompanyCar=0;
-  int currentIndex=0;
-  Timer? timer;
-
-  List _foundCar=[];
-
-  @override
-  void initState(){
-    super.initState();
-    // autoShowCar();
-    _foundCar=informationCar;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    timer?.cancel();
-    _controller.dispose();
-  }
-
-  void _runFilter(String enteredKeyword){
-    List results = [];
-    if (enteredKeyword.isEmpty) {
-      results = informationCar;
-    } else {
-      results = informationCar
-        .where((user) =>
-        user.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
-        .toList();
-    }
-    setState(() {
-      _foundCar=results;
-    });
-  }
 
   // void autoShowCar(){
   //   timer = Timer.periodic(
@@ -80,30 +45,19 @@ class _HomePageState extends State<HomePage> {
   //   });
   // } 
 
-  Widget listCars(){
-    return Padding(
-      padding:const EdgeInsets.only(bottom: 20),
-      child: GridView.builder(
-        shrinkWrap: true,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-          mainAxisExtent: 250
-        ), 
-        itemCount: _foundCar.length,
-        itemBuilder: (context, index) => InformationCar(
-          key: ValueKey(_foundCar[index].id),
-          car: _foundCar[index],
-          listCar: _viewModel!.listCar,
-          onPressed: () {
-            if(!_viewModel!.listCar.contains(_foundCar[index])){
-              _viewModel!.listCar.add(_foundCar[index]);
-            }else{
-              _viewModel!.listCar.removeAt(_foundCar[index]);
-            }
-          },
-        ),
+  Widget listCars(List<CarModel> car){
+    return GridView.builder(
+      shrinkWrap: true,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
+        mainAxisExtent: 250,
+      ), 
+      itemCount: car.length,
+      itemBuilder: (context, index) => InfoCarWidget(
+        car: car[index],
+        onPressed: () => _viewModel!.setCarFavorite(index),
       ),
     );
   }
@@ -118,6 +72,209 @@ class _HomePageState extends State<HomePage> {
       builder: (context, viewModel, child) => buildHomeScreen(),);
   }
 
+  Widget buildPageCarDiscount(AsyncSnapshot<List<Car>> snapshot){
+    return PageView.builder(
+      controller: _viewModel!.controller,
+      itemCount: snapshot.data!.length,
+      itemBuilder: (context, index) {
+        final car= snapshot.data![index];
+          return DiscountCar(
+            imageCar: car.imageCar,
+            discount: car.discount,
+          );
+      },
+    );
+  }
+
+  Widget buildDotPageDiscount(AsyncSnapshot<List<Car>> snapshot){
+    return Positioned(
+      bottom: 20,
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 130),
+        child: SmoothPageIndicator(
+          controller: _viewModel!.controller, 
+          count: snapshot.data!.length,
+          effect: const ExpandingDotsEffect(
+            spacing: 12,
+            dotColor: Colors.grey,
+            strokeWidth: 1,
+            dotWidth: 7,
+            dotHeight: 7,
+            activeDotColor: Colors.black
+          ),
+          onDotClicked: (index) => _viewModel!.controller.animateToPage(
+            index, 
+            duration: const Duration(milliseconds: 500), 
+            curve: Curves.linear
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildCarDiscount(){
+    return Container(
+      margin: const EdgeInsets.only(top: 250, left: 20, right: 20),
+      width: double.maxFinite,
+      height: 200,
+      child: StreamBuilder(
+        stream: FireStore.readNewspaper(),
+        builder: (context, snapshot) {
+          if(snapshot.hasData){
+            return Stack(
+              children:[
+                buildPageCarDiscount(snapshot),
+
+                buildDotPageDiscount(snapshot),
+              ] 
+            );
+          }else{
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
+      ),
+    );
+  }
+
+  Widget buildNameUser(){
+    return ListTile(
+      leading: const CircleAvatar(
+        backgroundColor: Colors.black,
+      ),
+      contentPadding: const EdgeInsets.only(left: 18, right: 20),
+      title: TextLargest(text: _viewModel!.user?.fullName ?? ''),
+      trailing: SizedBox(
+        width: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset('assets/notification-bing.svg'),
+            const SizedBox(width: 12,),
+            SvgPicture.asset('assets/heart.svg'),
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget buildTabAll(){
+    return listCars(_viewModel!.listCarModel);
+  }
+
+  Widget buildTabMec(){
+    return listCars(_viewModel!.listCarMec?.carModel ?? []);
+  }
+
+  Widget buildTabBMW(){
+    return listCars(_viewModel!.listCarBMW?.carModel ?? []);
+  }
+
+  Widget buildTabToyota(){
+    return listCars(_viewModel!.listCarToyota?.carModel ?? []);
+  }
+
+  Widget buildTabVolvo(){
+    return listCars(_viewModel!.listCarVolvo?.carModel ?? []);
+  }
+
+  Widget buildTabJaguar(){
+    return listCars(_viewModel!.listCarJaguar?.carModel ?? []);
+  }
+
+  Widget buildTabHonda(){
+    return listCars(_viewModel!.listCarHonda?.carModel ?? []);
+  }
+
+  Widget buildTabCar(){
+    return TabBar(
+      tabs: List.generate(companyCar.length, (index) => 
+        Container(
+          height: 30,
+          width: 80,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(15),
+            border: Border.all(color: Colors.black, width: 2)
+          ),
+          child: Text(companyCar[index].logoName),
+        ),
+      ),
+      isScrollable: true,
+      labelColor: Colors.white,
+      labelStyle: const TextStyle(
+        fontSize: 15,
+        fontWeight: FontWeight.bold,
+      ),
+      indicator: BoxDecoration(
+        color: Colors.black,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      unselectedLabelColor: Colors.black,
+    );
+  }
+
+  Widget buildListCarOfTab(){
+    return SizedBox(
+      height: 500,
+      child: TabBarView(
+        children: [
+          buildTabAll(),
+          buildTabMec(),
+          buildTabBMW(),
+          buildTabToyota(),
+          buildTabVolvo(),
+          buildTabJaguar(),
+          buildTabHonda(),
+        ]
+      ),
+    );
+  }
+
+  Widget buildFieldSearch(){
+    return TextFieldSearch(
+      onChange: (value) => _viewModel!.runFilter(value),
+    );
+  }
+
+  Widget buildTitleDiscount(){
+    return TitleRow(textLeft: "Special Offsers", 
+      textRight: 'See All',
+      onTap: (){},
+    );
+  }
+
+  Widget buildTitleListCar(){
+    return TitleRow(
+      textLeft: 'Top Deals', 
+      textRight: 'See All',
+      onTap: (){
+        Navigator.push(context, MaterialPageRoute(
+          builder: (context)=>const TopDealsPage()));
+      },
+    );
+  }
+
+  Widget buildBody(){
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 10,),
+          buildFieldSearch(),
+          const SizedBox(height: 20,),
+          buildTitleDiscount(),
+          const SizedBox(height: 230,),
+          logoCars(),
+          buildTitleListCar(),
+          const SizedBox(height: 20,),
+          buildTabCar(),
+          buildListCarOfTab(),
+        ],
+      ),
+    );
+  }
+
   Widget buildHomeScreen(){
     return Scaffold(
       body: DefaultTabController(
@@ -125,153 +282,13 @@ class _HomePageState extends State<HomePage> {
         child: SingleChildScrollView(
           child: Stack(
             children:[
-              Container(
-                margin: const EdgeInsets.only(top: 250, left: 20, right: 20),
-                width: double.maxFinite,
-                height: 200,
-                child: StreamBuilder(
-                  stream: FireStore.readNewspaper(),
-                  builder: (context, snapshot) {
-                    if(snapshot.hasData){
-                      return Stack(
-                        children:[
-                          PageView.builder(
-                            controller: _controller,
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              final car= snapshot.data![index];
-                                return DiscountCar(
-                                  imageCar: car.imageCar,
-                                  discount: car.discount,
-                                );
-                            },
-                          ),
-
-                          Positioned(
-                            bottom: 20,
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 130),
-                              child: SmoothPageIndicator(
-                                controller: _controller, 
-                                count: snapshot.data!.length,
-                                effect: const ExpandingDotsEffect(
-                                  spacing: 12,
-                                  dotColor: Colors.grey,
-                                  strokeWidth: 1,
-                                  dotWidth: 7,
-                                  dotHeight: 7,
-                                  activeDotColor: Colors.black
-                                ),
-                                onDotClicked: (index) => _controller.animateToPage(
-                                  index, 
-                                  duration: const Duration(milliseconds: 500), 
-                                  curve: Curves.linear
-                                ),
-                              ),
-                            ),
-                          ),
-                        ] 
-                      );
-                    }else{
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                  },
-                ),
-              ),
-      
+              buildCarDiscount(),
               Column(
                 children: [
                   const SizedBox(height: 50,),
-                  ListTile(
-                    leading: const CircleAvatar(
-                      backgroundColor: Colors.brown,
-                    ),
-                    contentPadding: const EdgeInsets.only(left: 18, right: 20),
-                    title: const TextSmall(text: 'Welcome Back', color: Colors.black54,),
-                    subtitle: const TextLargest(text: 'Andrew Ainsley'),
-                    trailing: SizedBox(
-                      width: 60,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset('assets/notification-bing.svg'),
-                          const SizedBox(width: 12,),
-                          SvgPicture.asset('assets/heart.svg'),
-                        ],
-                      ),
-                    )
-                  ),
-            
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 10,),
-      
-                        TextFieldSearch(
-                          onChange: (value) => _runFilter(value),
-                        ), 
-                  
-                        const SizedBox(height: 20,),
-                        TitleRow(textLeft: "Special Offsers", 
-                          textRight: 'See All',
-                          onTap: (){},
-                        ),
-            
-                        const SizedBox(height: 230,),
-            
-                        logoCars(),
-      
-                        TitleRow(
-                          textLeft: 'Top Deals', 
-                          textRight: 'See All',
-                          onTap: (){
-                            Navigator.push(context, MaterialPageRoute(
-                              builder: (context)=>const TopDealsPage()));
-                          },
-                        ),
-
-                        const SizedBox(height: 20,),
-      
-                        TabBar(
-                          tabs: List.generate(companyCar.length, (index) => 
-                            Container(
-                              height: 30,
-                              width: 80,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                border: Border.all(color: Colors.black, width: 2)
-                              ),
-                              child: Text(companyCar[index].logoName),
-                            ),
-                          ),
-                          isScrollable: true,
-                          labelColor: Colors.white,
-                          labelStyle: const TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          indicator: BoxDecoration(
-                            color: Colors.black,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          unselectedLabelColor: Colors.black,
-                        ),
-
-                        SizedBox(
-                          height: 500,
-                          child: TabBarView(
-                            children: List.generate(companyCar.length, (index) => 
-                              listCars()
-                            )
-                          ),
-                        ),
-                        const SizedBox(height: 50,)
-                      ],
-                    ),
-                  ),
+                  const TextSmall(text: 'Welcome Back', color: Colors.black54,),
+                  buildNameUser(),
+                  buildBody(),
                 ],
               ),
             ]

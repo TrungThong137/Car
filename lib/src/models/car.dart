@@ -45,7 +45,7 @@ List logoCar=[
   Car(logoName: 'BMW', imageCar: 'assets/bmw-icon.png'),
   Car(logoName: 'Toyota', imageCar: 'assets/Toyota-logo.png'),
   Car(logoName: 'Volvo', imageCar: 'assets/volvo_logo.png'),
-  Car(logoName: 'Bugatti', imageCar: 'assets/bugatti_logo.png'),
+  Car(logoName: 'Jaguar', imageCar: 'assets/jaguar.png'),
   Car(imageCar: 'assets/honda_logo.png', logoName: 'Honda'),
   Car(logoName: 'More', imageCar: 'assets/more-circle.png'),
 ];
@@ -53,15 +53,14 @@ List logoCar=[
 List companyCar=[
   Car(logoName: 'All'),
   Car(logoName: 'Mercedes'),
-  Car(logoName: 'Tesla'),
   Car(logoName: 'BMW'),
   Car(logoName: 'Toyota'),
   Car(logoName: 'Volvo'),
-  Car(logoName: 'Bugatti'),
+  Car(logoName: 'Jaguar'),
   Car(logoName: 'Honda'),
 ];
 
-List informationCar=[
+List<Car> informationCar=[
   Car(name: 'Mercedes G63', imageCar: 'assets/g63.png', price: '\$200,000'),
   Car(name: 'DDDS', imageCar: 'assets/ddds.png', price: '\$150,000'),
   Car(name: 'F-15', imageCar: 'assets/f-15.png', price: '\$170,000'),

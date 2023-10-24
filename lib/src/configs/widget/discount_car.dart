@@ -11,7 +11,8 @@ class DiscountCar extends StatefulWidget {
     this.width=double.maxFinite, 
     this.height=180, 
     this.widthCar=180,  
-    this.positionTop=40
+    this.positionTop=40, 
+    this.isImageNetWord=false,
   });
   final String discount;
   final String imageCar;
@@ -20,13 +21,13 @@ class DiscountCar extends StatefulWidget {
   final double height;
   final double widthCar;
   final double positionTop;
+  final bool isImageNetWord;
 
   @override
   State<DiscountCar> createState() => _DiscountCarState();
 }
 
 class _DiscountCarState extends State<DiscountCar> {
-  bool isHeart=true;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -60,10 +61,10 @@ class _DiscountCarState extends State<DiscountCar> {
           Positioned(
             top: widget.positionTop,
             right: 10,
-            child: Image.asset(
+            child: !widget.isImageNetWord ? Image.asset(
               widget.imageCar,
               width: widget.widthCar,
-            ),
+            ): Image.network(widget.imageCar, width: widget.widthCar,),
           ),
         ],
       ),

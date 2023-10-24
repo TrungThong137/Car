@@ -1,61 +1,67 @@
-import 'package:car_app/src/models/car.dart';
-import 'package:car_app/src/configs/widget/discount_car.dart';
+import 'package:car_app/src/models/car_model.dart';
 import 'package:flutter/material.dart';
 
-class InformationCar extends StatefulWidget {
-  const InformationCar({super.key,
-    required this.car, 
+class InfoCarWidget extends StatefulWidget {
+  const InfoCarWidget({super.key,
     this.onPressed, 
-    this.isFavorite= false,
-    this.listCar,
+    this.isFavorite= false, 
+    this.car,
   });
-  final Car car;
   final Function()? onPressed;
   final bool isFavorite;
-  final List<Car>? listCar;
+  final CarModel? car;
 
   @override
-  State<InformationCar> createState() => _InformationCarState();
+  State<InfoCarWidget> createState() => _InfoCarWidgetState();
 }
 
-class _InformationCarState extends State<InformationCar> {
+class _InfoCarWidgetState extends State<InfoCarWidget> {
 
   int gottenStars=4;
 
   @override
   Widget build(BuildContext context) {
 
+    Widget buildImage(){
+      return Container(
+        height: 150,
+        width: 180,
+        decoration: BoxDecoration(
+          color: Colors.grey.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(30),
+          image: DecorationImage(
+            image: NetworkImage(widget.car!.image![0]), 
+            fit: BoxFit.fitHeight
+          )
+        ),
+      );
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Stack(
           children:[
-            DiscountCar(
-              imageCar: widget.car.imageCar,
-              isText: false,
-              width: 180,
-              height: 150,
-              widthCar: 150,
-            ),
-    
-            Positioned(
-              top: 5,
-              right: 5,
-              child: IconButton(
-                onPressed: (){
-                  widget.onPressed!();
-                }, 
-                icon: widget.listCar!.contains(widget.car) 
-                ? const Icon(Icons.favorite, color: Colors.red)
-                : const Icon(Icons.favorite_border, color: Colors.black,)
-              ),
-            )
+            buildImage(),
+
+            // Positioned(
+            //   top: 5,
+            //   right: 5,
+            //   child: IconButton(
+            //     onPressed: (){
+            //       widget.onPressed!();
+            //     }, 
+            //     // icon: widget.listCar!.contains(widget.car) 
+            //     // ? const Icon(Icons.favorite, color: Colors.red)
+            //     icon: const Icon(Icons.favorite_border, color: Colors.pink,)
+            //   ),
+            // )
     
           ] 
         ),
         const SizedBox(height: 10,),
         Text(
-          widget.car.name,
+          widget.car?.name ?? '',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(
@@ -114,12 +120,17 @@ class _InformationCarState extends State<InformationCar> {
               color: Colors.black,
             ),
             const SizedBox(width: 5,),
-            Text(
-              widget.car.price,
-              style: const TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Colors.black
+            SizedBox(
+              width: 110,
+              child: Text(
+                widget.car?.price ??'',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black
+                ),
               ),
             ),
           ],

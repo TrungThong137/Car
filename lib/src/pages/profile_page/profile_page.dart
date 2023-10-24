@@ -1,10 +1,11 @@
 import 'package:car_app/src/firebase/firebase_auth.dart';
 import 'package:car_app/src/models/infor_drawer.dart';
-import 'package:car_app/src/pages/home/home_page.dart';
 import 'package:car_app/src/pages/profile_page/slide_menu.dart';
 import 'package:car_app/src/pages/login_page/login_page.dart';
 import 'package:car_app/src/configs/widget/infor_card.dart';
 import 'package:flutter/material.dart';
+
+import '../../utils/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -77,6 +78,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ontap: () {
                             setState(() {
                               selectedIndex = index;
+                              AppPref.logout();
                               _fireAuth.signOut();
                             });
                             Navigator.push(

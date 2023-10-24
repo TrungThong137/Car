@@ -1,6 +1,7 @@
+import 'package:car_app/src/firebase/firebase_user.dart';
+import 'package:car_app/src/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../utils/shared_preferences.dart';
 
@@ -13,7 +14,7 @@ class FireAuth{
       await _firebaseAuth.createUserWithEmailAndPassword(
         email: email, password: password
       ).then((user){
-        _createUser(user.user!.uid, name, phone, onSuccess, onError);
+        _createUser(user.user!.uid, name, email, phone, password, onSuccess, onError);
       });
     }on FirebaseAuthException catch (e) {
       onError('SignIn fail, please try again');
@@ -27,7 +28,7 @@ class FireAuth{
     }
   }
 
-  _createUser(String userId, String name, String phone, Function onSuccess,
+  _createUser(String userId, String name,String email, String phone,String password, Function onSuccess,
     Function(String) onError){
       var user = <String, String>{};
       user['name']=name;
@@ -38,6 +39,13 @@ class FireAuth{
       }).catchError((err){
         onError(err.toString());
       });
+      FireStoreUser.createUser(Users(
+        idUser: userId,
+        emailAddress: email,
+        fullName: name,
+        pass: password,
+        phone: phone
+      ));
   }
 
   void signIn(String email, String password, Function onSuccess, Function(String) onError)async{
@@ -46,7 +54,7 @@ class FireAuth{
         email: email, password: password
       ).then((user)async{
         user.user?.getIdToken().then((idToken) async {
-          await AppPref.setToken(idToken);
+          await AppPref.setToken(idToken!);
         });
         onSuccess();
       });
