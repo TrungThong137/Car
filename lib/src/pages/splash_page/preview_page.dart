@@ -1,5 +1,5 @@
-import 'package:car_app/src/pages/login_page/login_page.dart';
 import 'package:car_app/src/configs/widget/button_page.dart';
+import 'package:car_app/src/pages/routers.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -63,11 +63,7 @@ class _PreviewPageState extends State<PreviewPage> {
   }
 
   void navigateSignUp(BuildContext ctx) {
-    Navigator.of(ctx).push(
-      MaterialPageRoute(builder: (_) {
-        return const LoginPage();
-      }),
-    );
+    Navigator.pushNamed(ctx, Routers.home);
   }
 
   @override

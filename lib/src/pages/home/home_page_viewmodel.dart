@@ -4,14 +4,16 @@ import 'package:car_app/src/configs/base/base.dart';
 import 'package:car_app/src/models/car.dart';
 import 'package:car_app/src/models/car_model.dart';
 import 'package:car_app/src/models/company_car_model.dart';
+import 'package:car_app/src/models/list_car_model.dart';
 import 'package:car_app/src/models/user.dart';
+import 'package:car_app/src/pages/routers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePageViewModel extends BaseViewModel{
   List<Car> listCar=[];
-  List<Car> foundCar=[];
+  List<CarModel> foundCar=[];
   List<CarModel> listCarModel=[];
   CompanyCarModel? listCarBMW;
   CompanyCarModel? listCarHonda;
@@ -33,11 +35,21 @@ class HomePageViewModel extends BaseViewModel{
   final currentUser = FirebaseAuth.instance.currentUser;
   
   dynamic init() async{
-    foundCar =  informationCar;
     fetchUserInfo();
     getAllCar();
     notifyListeners();
   }
+
+  Future<void> goToTopDetails() =>Navigator.pushNamed(
+    context, Routers.topDetails, arguments: ListCarModel(
+      listCarAll: listCarModel,
+      listCarBMW: listCarBMW,
+      listCarHonda: listCarHonda,
+      listCarJaguar: listCarJaguar,
+      listCarMec: listCarMec,
+      listCarToyota: listCarToyota,
+      listCarVolvo: listCarVolvo
+    ));
 
   void getAllCar() async{
     getCarBMW();
@@ -169,25 +181,16 @@ class HomePageViewModel extends BaseViewModel{
   }
 
   void runFilter(String enteredKeyword){
-    List<Car> results = [];
+    List<CarModel> results = [];
     if (enteredKeyword.isEmpty) {
-      results = informationCar;
+      results = listCarModel;
     } else {
-      results = informationCar
+      results = listCarModel
         .where((user) =>
-        user.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
+        user.name!.toLowerCase().contains(enteredKeyword.toLowerCase()))
         .toList();
     }
     foundCar=results;
-    notifyListeners();
-  }
-
-  void setCarFavorite(int index){
-    if(!listCar.contains(foundCar[index])){
-      listCar.add(foundCar[index]);
-    }else{
-      listCar.remove(foundCar[index]);
-    }
     notifyListeners();
   }
 

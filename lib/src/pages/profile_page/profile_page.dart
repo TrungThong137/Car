@@ -5,7 +5,7 @@ import 'package:car_app/src/pages/login_page/login_page.dart';
 import 'package:car_app/src/configs/widget/infor_card.dart';
 import 'package:flutter/material.dart';
 
-import '../../utils/shared_preferences.dart';
+import '../utils/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});

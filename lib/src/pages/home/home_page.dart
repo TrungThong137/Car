@@ -1,13 +1,8 @@
-
-import 'dart:async';
-
 import 'package:car_app/src/configs/base/base.dart';
 import 'package:car_app/src/firebase/firestore.dart';
 import 'package:car_app/src/models/car.dart';
-import 'package:car_app/src/pages/deals_page/top_deals_page.dart';
 import 'package:car_app/src/configs/widget/discount_car.dart';
 import 'package:car_app/src/pages/home/components/components.dart';
-import 'package:car_app/src/pages/home/components/information_car.dart';
 import 'package:car_app/src/configs/widget/logocar.dart';
 import 'package:car_app/src/configs/widget/text_largest.dart';
 import 'package:car_app/src/configs/widget/text_small.dart';
@@ -57,7 +52,6 @@ class _HomePageState extends State<HomePage> {
       itemCount: car.length,
       itemBuilder: (context, index) => InfoCarWidget(
         car: car[index],
-        onPressed: () => _viewModel!.setCarFavorite(index),
       ),
     );
   }
@@ -247,10 +241,7 @@ class _HomePageState extends State<HomePage> {
     return TitleRow(
       textLeft: 'Top Deals', 
       textRight: 'See All',
-      onTap: (){
-        Navigator.push(context, MaterialPageRoute(
-          builder: (context)=>const TopDealsPage()));
-      },
+      onTap: ()=> _viewModel!.goToTopDetails(),
     );
   }
 

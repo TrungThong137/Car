@@ -3,7 +3,7 @@ import 'package:car_app/src/models/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 
-import '../utils/shared_preferences.dart';
+import '../pages/utils/shared_preferences.dart';
 
 class FireAuth{
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

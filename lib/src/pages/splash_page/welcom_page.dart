@@ -1,8 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:async';
 
-import 'package:car_app/src/pages/main/main_page.dart';
-import 'package:car_app/src/pages/splash_page/preview_page.dart';
-import 'package:car_app/src/utils/shared_preferences.dart';
+import 'package:car_app/src/pages/routers.dart';
+import 'package:car_app/src/pages/utils/shared_preferences.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,20 +25,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Timer _startDelay() => _timer = Timer(const Duration(seconds: 2), _init);
 
-  Future<void> _goToSignIn(BuildContext context) =>
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const PreviewPage(),));
+  Future<void> goToPreview(BuildContext context) =>
+      Navigator.pushNamed(context, Routers.previewPage);
 
-  Future<void> _goToHome(BuildContext context) =>
-      Navigator.push(context, MaterialPageRoute(builder: (context) => const MainPage(),));
+  Future<void> goToHome(BuildContext context) =>
+      Navigator.pushNamed(context, Routers.home);
 
   Future<void> _init() async {
     // _goToSignIn(context);
     final token = await AppPref.getToken();
-    print('object');
     if (token == null || token.isEmpty) {
-      await _goToSignIn(context);
+      await goToPreview(context);
     } else {
-      await _goToHome(context);
+      await goToHome(context);
     }
   }
 
@@ -52,7 +52,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: SafeArea(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('assets/welcom-img.jpg'),
               fit: BoxFit.cover,

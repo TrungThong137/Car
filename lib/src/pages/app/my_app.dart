@@ -1,7 +1,7 @@
 
-
-import 'package:car_app/src/pages/splash_page/welcom_page.dart';
 import 'package:flutter/material.dart';
+
+import '../routers.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -24,9 +24,9 @@ class MyApp extends StatelessWidget {
       //             _Contants.languageEnglish,
       //             _Contants.countryEnglish,
       //           ),
-      // initialRoute: Routers.getStarted,
-      // onGenerateRoute: Routers.generateRoute,
-      home: const SplashScreen(),
+      initialRoute: Routers.getStarted,
+      onGenerateRoute: Routers.generateRoute,
+      // home: const SplashScreen(),
     );
   }
 }
