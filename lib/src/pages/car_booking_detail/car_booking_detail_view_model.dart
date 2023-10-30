@@ -26,6 +26,9 @@ class CarBookingDetailViewModel extends BaseViewModel{
 
   Future<void> goToCarBooking(int index)=> Navigator.pushNamed(
     context, Routers.carBooking, arguments: infoBooking);
+  
+  Future<void> goToCarOrder(int index)=> Navigator.pushNamed(
+    context, Routers.bottomNavigatorScreen, arguments: index);
 
   String? formatPhone(){
     String firstThreeDigits = infoBooking!.phone!.substring(0, 2); 

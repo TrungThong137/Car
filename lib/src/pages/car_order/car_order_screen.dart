@@ -66,8 +66,8 @@ class _CarOrderScreenState extends State<CarOrderScreen> {
       Padding(
         padding: EdgeInsets.only(top: SizeToPadding.sizeBig * 7),
         child: const EmptyDataWidget(
-          title: 'Hãng xe này trống',
-          content: 'Hiện tại chưa có xe nào. Vui lòng quay lại sau!',
+          title: 'không tìm thấy',
+          content: 'Hiện tại không có xe nào. Vui lòng quay lại sau!',
         ),
       )
       : Container(
@@ -88,6 +88,7 @@ class _CarOrderScreenState extends State<CarOrderScreen> {
         itemCount: _viewModel!.foundCar.length,
         itemBuilder: (context, index) => InfoCarWidget(
           car: _viewModel!.foundCar[index],
+          onCancelOrder: (result) => _viewModel!.deleteCar(index),
         ),
       ),
     );

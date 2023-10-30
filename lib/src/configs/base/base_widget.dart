@@ -53,4 +53,10 @@ class _BaseWidgetState<T extends BaseViewModel> extends State<BaseWidget<T>> {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 }

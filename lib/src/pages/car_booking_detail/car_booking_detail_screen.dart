@@ -95,10 +95,12 @@ class _CarBookingDetailScreenState extends State<CarBookingDetailScreen> {
           AppOutlineButton(
             width: MediaQuery.sizeOf(context).width/3,
             content: 'Thay đổi địa chỉ',
+            onTap: () {},
           ),
           AppOutlineButton(
             width: MediaQuery.sizeOf(context).width/3,
             content: 'Xem đơn hàng',
+            onTap: () => _viewModel!.goToCarOrder(1),
           )
         ],
       ),

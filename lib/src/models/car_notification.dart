@@ -1,4 +1,4 @@
-class CarBookingModel{
+class CarNotification{
   String? name;
   String? price;
   String? detail;
@@ -9,8 +9,9 @@ class CarBookingModel{
   String? email;
   String? note;
   String? id;
+  String? status;
 
-  CarBookingModel({
+  CarNotification({
     this.name,
     this.price, 
     this.detail,
@@ -21,9 +22,10 @@ class CarBookingModel{
     this.email,
     this.note,
     this.id,
+    this.status,
   });
 
-  static CarBookingModel fromJson(Map<String, dynamic> json) => CarBookingModel(
+  static CarNotification fromJson(Map<String, dynamic> json) => CarNotification(
     detail: json['detail'] ?? '',
     name: json['name'] ?? '',
     image: json['image'] ?? '',
@@ -34,6 +36,7 @@ class CarBookingModel{
     email: json['email'] ?? '',
     note: json['note'] ?? '',
     id: json['id'] ?? '',
+    status: json['status'] ?? '',
   );
 
   Map<String, dynamic> toJson() => {
@@ -47,5 +50,6 @@ class CarBookingModel{
     'email': email,
     'phone': phone,
     'id': id,
+    'status': status
   };
 }

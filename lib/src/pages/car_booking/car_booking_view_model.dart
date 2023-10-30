@@ -116,9 +116,7 @@ class CarBookingViewModel extends BaseViewModel{
       final infoUser= data();
       FirebaseFirestore.instance.collection('carBooking').doc(id).set(
         data()).then((data) {
-          LoadingDialog.hideLoadingDialog(context);
-          show.showSuccessDialog(context);
-          timer= Timer(const Duration(seconds: 2), ()=> goToBookingDetail(infoUser));
+          addDataNotification(infoUser, id);
         })
       .catchError((onError){
         LoadingDialog.hideLoadingDialog(context);
@@ -130,6 +128,20 @@ class CarBookingViewModel extends BaseViewModel{
       show.showErrorDialog(context);
     });
     notifyListeners();
+  }
+
+  void addDataNotification(Map<String, dynamic> infoUser, String id){
+    infoUser['status']='add';
+    FirebaseFirestore.instance.collection('notification').add(
+      infoUser).then((data) {
+        LoadingDialog.hideLoadingDialog(context);
+        show.showSuccessDialog(context);
+        timer= Timer(const Duration(seconds: 2), ()=> goToBookingDetail(infoUser));
+      })
+    .catchError((onError){
+      LoadingDialog.hideLoadingDialog(context);
+      show.showErrorDialog(context);
+    });
   }
 
   @override

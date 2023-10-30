@@ -9,9 +9,11 @@ class InfoCarWidget extends StatefulWidget {
   const InfoCarWidget({super.key,
     this.onTap, 
     this.isFavorite= false, 
-    this.car,
+    this.car, 
+    this.onCancelOrder,
   });
   final Function()? onTap;
+  final Function(String result)? onCancelOrder;
   final bool isFavorite;
   final CarBookingModel? car;
 
@@ -94,9 +96,7 @@ class _InfoCarWidgetState extends State<InfoCarWidget> {
               ),
             ),
             PopupMenuButton(
-              onSelected: (result) {
-                print('You selected: $result');
-              },
+              onSelected: (result) => widget.onCancelOrder!(result),
               itemBuilder: (context) => [
                 const PopupMenuItem(
                   value: 'Option 1',

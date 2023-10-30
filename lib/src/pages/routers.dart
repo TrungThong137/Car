@@ -1,6 +1,7 @@
 import 'package:car_app/src/pages/bottom_navigator/bottom_navigator.dart';
 import 'package:car_app/src/pages/car_company/car_company.dart';
 import 'package:car_app/src/pages/car_detail/car_detail.dart';
+import 'package:car_app/src/pages/car_order/car_order_screen.dart';
 import 'package:car_app/src/pages/deals_page/top_deals_page_screen.dart';
 import 'package:car_app/src/pages/home/home_page.dart';
 import 'package:car_app/src/pages/login_page/login_page.dart';
@@ -28,6 +29,7 @@ class Routers {
   static const String carDetail = '/carDetail';
   static const String carBooking = '/carBooking';
   static const String carBookingDetail = '/carBookingDetail';
+  static const String carOrder = '/carOrder';
   static const String bottomNavigatorScreen = '/bottomNavigatorScreen';
   static const String signIn = '/signIn';
   static const String signUp = '/signUp';
@@ -49,6 +51,14 @@ class Routers {
           const BottomNavigationBarScreen(),
           beginOffset: right,
           name: bottomNavigatorScreen,
+          arguments: arguments,
+        );
+
+      case carOrder:
+        return animRoute(
+          const CarOrderScreen(),
+          beginOffset: right,
+          name: carOrder,
           arguments: arguments,
         );
 
