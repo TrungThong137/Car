@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 
 import '../home/home_page.dart';
 import '../inbox_page.dart';
-import '../order_page.dart';
+import '../car_order/car_order_screen.dart';
 import '../profile_page/profile_page.dart';
 import '../splash_page/wallet_page.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({super.key});
+class BottomNavigationBarScreen extends StatefulWidget {
+  const BottomNavigationBarScreen({super.key});
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<BottomNavigationBarScreen> createState() => _BottomNavigationBarScreenState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
 
   int selectedIndex=0;
 
@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
     if(selectedIndex == 0) {
       return const HomePage();
     } else if(selectedIndex==1) {
-      return const OrderPage();
+      return const CarOrderScreen();
     } else if(selectedIndex==2){
       return const InboxPage();
     }else if(selectedIndex ==3){

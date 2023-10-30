@@ -1,7 +1,6 @@
-import 'package:car_app/src/dialog/loading_dialog.dart';
-import 'package:car_app/src/dialog/msg_dialog.dart';
+import 'package:car_app/src/configs/widget/loading_dialog/loading_dialog.dart';
+import 'package:car_app/src/configs/widget/loading_dialog/msg_dialog.dart';
 import 'package:car_app/src/firebase/firebase_auth.dart';
-import 'package:car_app/src/pages/main/main_page.dart';
 import 'package:car_app/src/pages/register_page/register_page.dart';
 import 'package:car_app/src/configs/widget/button_page.dart';
 import 'package:car_app/src/configs/widget/check_box.dart';
@@ -11,6 +10,9 @@ import 'package:car_app/src/configs/widget/text_largest.dart';
 import 'package:car_app/src/configs/widget/text_small.dart';
 import 'package:car_app/src/configs/widget/textfield_input.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+
+import '../routers.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,34 +34,34 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             children: [
               Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  'assets/app-icon0.png',
-                  color: Colors.black,
-                ),
-                const SizedBox(
-                  width: 10,
-                ),
-                const Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'AutoTECH',
-                      style: TextStyle(
-                        fontSize: 25,
-                        fontWeight: FontWeight.bold,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/app-icon0.png',
+                    color: Colors.black,
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  ),
+                  const Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'AutoTECH',
+                        style: TextStyle(
+                          fontSize: 25,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 5),
-                    Text(
-                      'write your own journey',
-                      style: TextStyle(fontStyle: FontStyle.italic),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                      SizedBox(height: 5),
+                      Text(
+                        'write your own journey',
+                        style: TextStyle(fontStyle: FontStyle.italic),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
               const SizedBox(height: 50),
               const TextLargest(text: "Login to Your Account"),
               const SizedBox(height: 30),
@@ -160,8 +162,8 @@ class _LoginPageState extends State<LoginPage> {
     _fireAuth.signIn(_emailController.text.trim(), _passController.text.trim(),
         () {
       LoadingDialog.hideLoadingDialog(context);
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const MainPage()));
+      // Future<void> goToHome(BuildContext context) =>
+      Navigator.pushNamed(context, Routers.bottomNavigatorScreen);
     }, (msg) {
       LoadingDialog.hideLoadingDialog(context);
       MsgDialog.showMsgDialog(context, 'Error', msg);

@@ -1,7 +1,6 @@
-import 'package:car_app/src/dialog/loading_dialog.dart';
-import 'package:car_app/src/dialog/msg_dialog.dart';
+import 'package:car_app/src/configs/widget/loading_dialog/loading_dialog.dart';
+import 'package:car_app/src/configs/widget/loading_dialog/msg_dialog.dart';
 import 'package:car_app/src/firebase/firebase_auth.dart';
-import 'package:car_app/src/pages/main/main_page.dart';
 import 'package:car_app/src/pages/login_page/login_page.dart';
 import 'package:car_app/src/configs/widget/button_page.dart';
 import 'package:car_app/src/configs/widget/text_largest.dart';
@@ -10,6 +9,8 @@ import 'package:car_app/src/configs/widget/textfield_input.dart';
 import 'package:flutter/material.dart';
 import 'package:car_app/src/configs/widget/sidebar_login.dart';
 import 'package:car_app/src/configs/widget/social_icon.dart';
+
+import '../routers.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -204,8 +205,8 @@ class _RegisterPageState extends State<RegisterPage> {
         _phoneController.text.toString().trim(),
         (){
           LoadingDialog.hideLoadingDialog(context);
-          Navigator.push(context, MaterialPageRoute(
-            builder: (context) => const MainPage()));
+      //     Future<void> goToHome(BuildContext context) =>
+           Navigator.pushNamed(context, Routers.bottomNavigatorScreen);
         },
         (msg){
           // show msg dialog

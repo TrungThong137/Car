@@ -51,7 +51,40 @@ class HomePageViewModel extends BaseViewModel{
       listCarVolvo: listCarVolvo
     ));
 
-  void getAllCar() async{
+  Future<void> goToCompanyCar(CompanyCarModel? carModel)=> Navigator.pushNamed(
+    context, Routers.carCompany, arguments: carModel);
+  
+  Future<void> goToCarDetail(CarModel? carModel)=> Navigator.pushNamed(
+    context, Routers.carDetail, arguments: carModel);
+
+  void setCarCompany(int index){
+    switch (index) {
+      case 0:
+        goToCompanyCar(listCarMec!);
+        break;
+      case 1:
+        goToCompanyCar(CompanyCarModel(companyCar: 'Tesla'));
+        break;
+      case 2:
+        goToCompanyCar(listCarBMW);
+        break;
+      case 3:
+        goToCompanyCar(listCarToyota);
+        break;
+      case 4:
+        goToCompanyCar(listCarVolvo);
+        break;
+      case 5:
+        goToCompanyCar(listCarJaguar);
+        break;
+      case 6:
+        goToCompanyCar(listCarHonda);
+        break;
+      default: (){};
+    }
+  }
+
+  Future<void> getAllCar() async{
     getCarBMW();
     getCarHonda();
     getCarJaguar();
@@ -74,7 +107,7 @@ class HomePageViewModel extends BaseViewModel{
         carModel: car,
         companyCar: 'BMW'
       );
-      listCarModel=car;
+      listCarModel.addAll(car);
       notifyListeners();
     });
   }

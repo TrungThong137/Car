@@ -6,7 +6,7 @@ import 'package:car_app/src/pages/home/components/components.dart';
 import 'package:car_app/src/configs/widget/logocar.dart';
 import 'package:car_app/src/configs/widget/text_largest.dart';
 import 'package:car_app/src/configs/widget/text_small.dart';
-import 'package:car_app/src/configs/widget/textfile_search.dart';
+import 'package:car_app/src/configs/widget/filed_search/textfile_search.dart';
 import 'package:car_app/src/configs/widget/title_row.dart';
 import 'package:car_app/src/pages/home/home_page_viewmodel.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +43,7 @@ class _HomePageState extends State<HomePage> {
   Widget listCars(List<CarModel> car){
     return GridView.builder(
       shrinkWrap: true,
+      physics: const BouncingScrollPhysics(),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         crossAxisSpacing: 20,
@@ -52,6 +53,7 @@ class _HomePageState extends State<HomePage> {
       itemCount: car.length,
       itemBuilder: (context, index) => InfoCarWidget(
         car: car[index],
+        onTap: () => _viewModel!.goToCarDetail(car[index]),
       ),
     );
   }
@@ -301,7 +303,8 @@ class _HomePageState extends State<HomePage> {
         itemCount: logoCar.length,
         itemBuilder: (context, index) => LogoCar(
           logoCar: logoCar[index].imageCar, 
-          nameCar: logoCar[index].logoName
+          nameCar: logoCar[index].logoName,
+          onTap: () => _viewModel!.setCarCompany(index),
         ),
       ),
     );

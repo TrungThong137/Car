@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 class LogoCar extends StatelessWidget {
   const LogoCar({super.key, 
     required this.logoCar, 
-    required this.nameCar
+    required this.nameCar, 
+    this.onTap
   });
   final String logoCar;
   final String nameCar;
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: (){},
+      onTap: ()=> onTap!(),
       child: Column(
         children: [
           SizedBox(

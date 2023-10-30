@@ -1,9 +1,11 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+import 'dart:math';
 
 import 'package:car_app/src/pages/routers.dart';
 import 'package:car_app/src/pages/utils/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -29,10 +31,11 @@ class _SplashScreenState extends State<SplashScreen> {
       Navigator.pushNamed(context, Routers.previewPage);
 
   Future<void> goToHome(BuildContext context) =>
-      Navigator.pushNamed(context, Routers.home);
+      Navigator.pushNamed(context, Routers.bottomNavigatorScreen);
 
   Future<void> _init() async {
     // _goToSignIn(context);
+    print(FirebaseAuth.instance.currentUser?.uid);
     final token = await AppPref.getToken();
     if (token == null || token.isEmpty) {
       await goToPreview(context);

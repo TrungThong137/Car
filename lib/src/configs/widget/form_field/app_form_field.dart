@@ -119,7 +119,7 @@ class _AppFormFieldState extends State<AppFormField> {
                   borderRadius:
                       BorderRadius.circular(BorderRadiusSize.sizeSmall),
                   borderSide:
-                      const BorderSide(color: AppColors.FIELD_GREEN, width: 2),
+                      const BorderSide(color: AppColors.BLACK_500, width: 2),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius:

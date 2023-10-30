@@ -63,7 +63,7 @@ class _PreviewPageState extends State<PreviewPage> {
   }
 
   void navigateSignUp(BuildContext ctx) {
-    Navigator.pushNamed(ctx, Routers.home);
+    Navigator.pushNamed(ctx, Routers.signIn);
   }
 
   @override
