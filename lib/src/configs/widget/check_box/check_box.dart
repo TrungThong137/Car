@@ -1,22 +1,23 @@
+import 'package:car_app/src/configs/constants/constants.dart';
+import 'package:car_app/src/configs/widget/text/paragraph.dart';
 import 'package:flutter/material.dart';
 
-class CheckBox extends StatefulWidget {
-  const CheckBox({super.key});
+class CheckBox extends StatelessWidget {
+  const CheckBox({
+    super.key, 
+    this.content,
+    this.isChecked=false, 
+    required this.onTap
+  });
 
-  @override
-  State<CheckBox> createState() => _CheckBoxState();
-}
+  final String? content;
+  final bool isChecked;
+  final Function() onTap;
 
-class _CheckBoxState extends State<CheckBox> {
-  bool isChecked = false;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          isChecked = !isChecked;
-        });
-      },
+      onTap: () => onTap(),
       child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -27,21 +28,21 @@ class _CheckBoxState extends State<CheckBox> {
               // borderRadius: BorderRadius.circular(20),
               shape: BoxShape.circle,
               border: Border.all(
-                color: isChecked ? Colors.black : Colors.black,
+                color: AppColors.BLACK_500,
                 width: 2.5,
               ),
             ),
             child: Icon(
               Icons.check,
               size: 15,
-              color: isChecked ? Colors.black : Colors.transparent,
+              weight: 2,
+              color: isChecked ? AppColors.BLACK_500 : Colors.transparent,
             ),
           ),
           const SizedBox(width: 8),
-          const Text(
-            ' Remember Me',
-           style: TextStyle(
-                            fontSize: 15, fontWeight: FontWeight.bold),
+          Paragraph(
+            content: content,
+           style: STYLE_MEDIUM_BOLD,
           ),
         ],
       ),

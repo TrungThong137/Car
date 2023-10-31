@@ -4,8 +4,8 @@ import 'package:car_app/src/pages/car_detail/car_detail.dart';
 import 'package:car_app/src/pages/car_order/car_order_screen.dart';
 import 'package:car_app/src/pages/deals_page/top_deals_page_screen.dart';
 import 'package:car_app/src/pages/home/home_page.dart';
-import 'package:car_app/src/pages/login_page/login_page.dart';
-import 'package:car_app/src/pages/register_page/register_page.dart';
+import 'package:car_app/src/pages/login_page/login.dart';
+import 'package:car_app/src/pages/register_page/sign_up_screen.dart';
 import 'package:car_app/src/pages/splash_page/preview_page.dart';
 import 'package:car_app/src/pages/splash_page/welcom_page.dart';
 import 'package:flutter/material.dart';
@@ -120,7 +120,7 @@ class Routers {
 
       case signIn:
         return animRoute(
-          const LoginPage(),
+          const LoginScreen(),
           beginOffset: right,
           name: signIn,
           arguments: arguments,
@@ -128,7 +128,7 @@ class Routers {
 
       case signUp:
         return animRoute(
-          const RegisterPage(),
+          const SignUpScreen(),
           beginOffset: right,
           name: signUp,
           arguments: arguments,

@@ -22,7 +22,7 @@ class AppFormField extends StatefulWidget {
       this.counterText,
       this.onTap,
       this.enabled = true,
-      this.iconButton,
+      this.iconPrefix,
       this.suffixText,
       this.inputFormatters,
       this.isRequired = false,
@@ -42,7 +42,7 @@ class AppFormField extends StatefulWidget {
   final int? maxLenght;
   final int? maxLines;
   final String? counterText;
-  final IconButton? iconButton;
+  final Widget? iconPrefix;
   final List<TextInputFormatter>? inputFormatters;
   final bool isRequired;
   final Widget? suffixIcon;
@@ -143,7 +143,7 @@ class _AppFormFieldState extends State<AppFormField> {
                         ),
                       )
                     : null),
-                prefixIcon: widget.iconButton,
+                prefixIcon: widget.iconPrefix,
               ),
             ),
           ),

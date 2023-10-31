@@ -1,5 +1,5 @@
-import 'package:car_app/src/configs/widget/text_largest.dart';
-import 'package:car_app/src/configs/widget/text_small.dart';
+import 'package:car_app/src/configs/constants/constants.dart';
+import 'package:car_app/src/configs/widget/text/paragraph.dart';
 import 'package:flutter/material.dart';
 
 class TitleRow extends StatelessWidget {
@@ -17,10 +17,10 @@ class TitleRow extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children:[
-        TextLargest(text: textLeft),
+        Paragraph(content: textLeft, style: STYLE_LARGE_BOLD,),
         InkWell(
           onTap: onTap,
-          child: TextSmall(text: textRight, fontWeight: FontWeight.bold,))
+          child: Paragraph(content: textRight, fontWeight: FontWeight.bold,))
       ],
     );
   }

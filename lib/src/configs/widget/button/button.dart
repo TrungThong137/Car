@@ -2,7 +2,6 @@
 
 import 'package:flutter/material.dart';
 
-import '../../constants/app_space.dart';
 import '../../constants/constants.dart';
 import '../text/paragraph.dart';
 
@@ -30,7 +29,7 @@ class AppButton extends StatelessWidget {
             colors: [
               if (enableButton) AppColors.BLACK_500 else AppColors.BLACK_200,
               if (enableButton)
-                AppColors.BLACK_400
+                AppColors.BLACK_500
               else
                 AppColors.BLACK_200,
             ],

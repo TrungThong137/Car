@@ -1,7 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
-import 'dart:math';
 
 import 'package:car_app/src/pages/routers.dart';
 import 'package:car_app/src/pages/utils/shared_preferences.dart';

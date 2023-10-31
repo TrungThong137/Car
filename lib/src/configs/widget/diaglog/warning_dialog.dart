@@ -21,6 +21,7 @@ class WarningDialog extends StatelessWidget {
     this.onTapRight,
     this.isForm = false,
     this.controller,
+    this.isWaning=false,
   }) : super(key: key);
   final String? content;
   final String? title;
@@ -33,6 +34,7 @@ class WarningDialog extends StatelessWidget {
   final Function()? onTapRight;
   final bool isForm;
   final TextEditingController? controller;
+  final bool isWaning;
 
   dynamic dialogContent(BuildContext context) {
     return DecoratedBox(
@@ -54,7 +56,12 @@ class WarningDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             if (image != null)
-              CircleAvatar(
+              isWaning ? SvgPicture.asset(
+                image ?? '',
+                width: 100,
+                height: 100,
+              )
+              :CircleAvatar(
                 backgroundColor: AppColors.COLOR_WHITE,
                 radius: 35,
                 child: SvgPicture.asset(

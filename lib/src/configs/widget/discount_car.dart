@@ -1,6 +1,7 @@
 
 
-import 'package:car_app/src/configs/widget/text_largest.dart';
+
+import 'package:car_app/src/configs/widget/text/paragraph.dart';
 import 'package:flutter/material.dart';
 
 class DiscountCar extends StatefulWidget {
@@ -45,9 +46,9 @@ class _DiscountCarState extends State<DiscountCar> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextLargest(text: widget.discount, fontSize: 35.0,),
+                Paragraph(content: widget.discount, style: const TextStyle(fontSize: 35.0,)),
                 const SizedBox(height: 10,),
-                const TextLargest(text: 'Week Deals!'),
+                const Paragraph(content: 'Week Deals!'),
                 const SizedBox(height: 10,),
                 const SizedBox(
                   width: 170,

@@ -1,4 +1,5 @@
-import 'package:car_app/src/configs/widget/button_page.dart';
+import 'package:car_app/src/configs/constants/constants.dart';
+import 'package:car_app/src/configs/widget/button/button.dart';
 import 'package:car_app/src/pages/routers.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -146,16 +147,15 @@ class _PreviewPageState extends State<PreviewPage> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  ButtonPage(
-                    onTap: () {
-                      navigateSignUp(context);
-                    },
-                    text: 'Continue',
-                    color: Colors.black,
-                    colortext: Colors.white,
-                    width: double.maxFinite,
-                    height: 50,
+                  Padding(
+                    padding: EdgeInsets.all(SizeToPadding.sizeLarge),
+                    child: AppButton(
+                      onTap: () {
+                        navigateSignUp(context);
+                      },
+                      content: 'Continue',
+                      enableButton: true,
+                    ),
                   ),
                 ],
               ),

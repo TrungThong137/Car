@@ -1,13 +1,13 @@
 import 'package:car_app/src/configs/base/base.dart';
+import 'package:car_app/src/configs/constants/constants.dart';
+import 'package:car_app/src/configs/widget/text/paragraph.dart';
 import 'package:car_app/src/firebase/firestore.dart';
 import 'package:car_app/src/models/car.dart';
 import 'package:car_app/src/configs/widget/discount_car.dart';
 import 'package:car_app/src/pages/home/components/components.dart';
 import 'package:car_app/src/configs/widget/logocar.dart';
-import 'package:car_app/src/configs/widget/text_largest.dart';
-import 'package:car_app/src/configs/widget/text_small.dart';
 import 'package:car_app/src/configs/widget/filed_search/textfile_search.dart';
-import 'package:car_app/src/configs/widget/title_row.dart';
+import 'package:car_app/src/configs/widget/title_row/title_row.dart';
 import 'package:car_app/src/pages/home/home_page_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -138,7 +138,8 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Colors.black,
       ),
       contentPadding: const EdgeInsets.only(left: 18, right: 20),
-      title: TextLargest(text: _viewModel!.user?.fullName ?? ''),
+      title: Paragraph(content: _viewModel!.user?.fullName ?? '',
+        style: STYLE_LARGE_BIG.copyWith(fontWeight: FontWeight.w700),),
       trailing: SizedBox(
         width: 60,
         child: Row(
@@ -279,7 +280,7 @@ class _HomePageState extends State<HomePage> {
               Column(
                 children: [
                   const SizedBox(height: 50,),
-                  const TextSmall(text: 'Welcome Back', color: Colors.black54,),
+                  const Paragraph(content: 'Welcome Back', color: AppColors.BLACK_500,),
                   buildNameUser(),
                   buildBody(),
                 ],

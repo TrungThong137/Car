@@ -1,4 +1,5 @@
-import 'package:car_app/src/configs/widget/text_small.dart';
+import 'package:car_app/src/configs/constants/constants.dart';
+import 'package:car_app/src/configs/widget/text/paragraph.dart';
 import 'package:flutter/material.dart';
 
 class LogoCar extends StatelessWidget {
@@ -30,7 +31,7 @@ class LogoCar extends StatelessWidget {
           ),
     
           const SizedBox(height: 10,),
-          TextSmall(text: nameCar, fontWeight: FontWeight.bold,)
+          Paragraph(content: nameCar, style: STYLE_SMALL_BOLD,)
         ],
       ),
     );
