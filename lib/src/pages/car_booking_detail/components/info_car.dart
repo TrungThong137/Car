@@ -24,30 +24,33 @@ class _InfoCarWidgetState extends State<InfoCarWidget> {
   @override
   Widget build(BuildContext context) {
     Widget buildImage(){
-      return CachedNetworkImage(
-        imageUrl: widget.car!.image![0],
-        progressIndicatorBuilder: (context, url, progress) {
-          if(progress.progress!=null){
-            final percent = progress.progress! *100;
-            return Center(child: Text('$percent% done loading!'));
-          }
-          return const Column(
-            children: [
-              Text('Loading....!'),
-              SizedBox(height: 5,),
-              CircularProgressIndicator(),
-            ],
-          );
-        },
-        imageBuilder: (context, imageProvider) => Container(
-          height: 150,
-          width: 180,
-          decoration: BoxDecoration(
-            color: Colors.grey.withOpacity(0.3),
-            borderRadius: BorderRadius.circular(30),
-            image: DecorationImage(
-              image: imageProvider,
-              fit: BoxFit.fitHeight,
+      return Hero(
+        tag: '${widget.car?.name}',
+        child: CachedNetworkImage(
+          imageUrl: widget.car!.image![0],
+          progressIndicatorBuilder: (context, url, progress) {
+            if(progress.progress!=null){
+              final percent = progress.progress! *100;
+              return Center(child: Text('$percent% done loading!'));
+            }
+            return const Column(
+              children: [
+                Text('Loading....!'),
+                SizedBox(height: 5,),
+                CircularProgressIndicator(),
+              ],
+            );
+          },
+          imageBuilder: (context, imageProvider) => Container(
+            height: 150,
+            width: 180,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.3),
+              borderRadius: BorderRadius.circular(30),
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.fitHeight,
+              ),
             ),
           ),
         ),

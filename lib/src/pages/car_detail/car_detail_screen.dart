@@ -15,7 +15,8 @@ class CarDetailsScreen extends StatefulWidget {
   State<CarDetailsScreen> createState() => _CarDetailsScreenState();
 }
 
-class _CarDetailsScreenState extends State<CarDetailsScreen> {
+class _CarDetailsScreenState extends State<CarDetailsScreen> 
+  with SingleTickerProviderStateMixin{
   CarDetailsViewModel? _viewModel;
 
   @override
@@ -24,7 +25,7 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
     return BaseWidget(
       viewModel: CarDetailsViewModel(),
       onViewModelReady: (viewModel) =>
-          _viewModel = viewModel!..init(car as CarModel?),
+          _viewModel = viewModel!..init(car as CarModel?, this),
       builder: (context, viewModel, child) => buildDetailCar(),
     );
   }
@@ -67,20 +68,23 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
 
   Widget buildPageImage() {
     final sizeImageUser = _viewModel!.carModel?.image?.length;
-    return SizedBox(
-      width: double.maxFinite,
-      height: SpaceBox.sizeBig * 13,
-      child: PageView.builder(
-        itemCount: sizeImageUser,
-        scrollDirection: Axis.horizontal,
-        controller: _viewModel!.pageController,
-        itemBuilder: (context, index) {
-          return Transform(
-            transform: Matrix4.identity()
-              ..rotateX(_viewModel!.currentPageValue - index),
-            child: buildImage(index),
-          );
-        },
+    return Hero(
+      tag: '${_viewModel!.carModel?.name}',
+      child: SizedBox(
+        width: double.maxFinite,
+        height: SpaceBox.sizeBig * 13,
+        child: PageView.builder(
+          itemCount: sizeImageUser,
+          scrollDirection: Axis.horizontal,
+          controller: _viewModel!.pageController,
+          itemBuilder: (context, index) {
+            return Transform(
+              transform: Matrix4.identity()
+                ..rotateX(_viewModel!.currentPageValue - index),
+              child: buildImage(index),
+            );
+          },
+        ),
       ),
     );
   }
@@ -110,10 +114,20 @@ class _CarDetailsScreenState extends State<CarDetailsScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        GestureDetector(onTap: () => _viewModel!.setFavorite(),
-          child: _viewModel!.isFavorite
-          ? const Icon(Icons.favorite, size: 30,  color: AppColors.PRIMARY_RED,)
-          : const Icon(Icons.favorite_outline, size: 30,)),
+         AnimatedBuilder(
+          animation: _viewModel!.controller!,
+          builder: (context, child) => GestureDetector(
+            onTap: () => _viewModel!.isFavorite? _viewModel!.controller!.reverse()
+              : _viewModel!.controller!.forward(),
+            child: Icon(
+              Icons.favorite, size: _viewModel!.sizeAnimation!.value,  
+              color: _viewModel!.colorAnimation!.value,)
+            ),
+         ),
+        // GestureDetector(onTap: () => _viewModel!.setFavorite(),
+        //   child: _viewModel!.isFavorite
+        //   ? const Icon(Icons.favorite, size: 30,  color: AppColors.PRIMARY_RED,)
+        //   : const Icon(Icons.favorite_outline, size: 30,)),
       ],
     );
   }

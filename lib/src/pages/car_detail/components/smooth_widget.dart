@@ -6,17 +6,16 @@ import '../../../configs/constants/app_space.dart';
 
 class SmoothWidget extends StatelessWidget {
   const SmoothWidget({required this.controller, super.key, 
-    this.count=0,});
+    this.count=1,});
 
   final PageController controller;
   final int count;
 
   @override
   Widget build(BuildContext context) {
-    const minSizeImage = 2;
-    return SmoothPageIndicator(
+    return count!=1? SmoothPageIndicator(
       controller: controller, 
-      count: count < minSizeImage  ? 0 : count,
+      count: count ,
       effect: ExpandingDotsEffect(
         spacing: SpaceBox.sizeSmall,
         dotColor: AppColors.COLOR_WHITE,
@@ -30,6 +29,6 @@ class SmoothWidget extends StatelessWidget {
         duration: const Duration(milliseconds: 500), 
         curve: Curves.linear,
       ),
-    );
+    ): Container();
   }
 }

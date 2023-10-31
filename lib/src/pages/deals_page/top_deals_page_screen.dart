@@ -83,6 +83,7 @@ class _TopDealsPageScreenState extends State<TopDealsPageScreen> {
       itemCount: car.length,
       itemBuilder: (context, index) => InfoCarWidget(
         car: car[index],
+        onTap: () => _viewModel!.goToCarDetail(car[index]),
       ),
     );
   }

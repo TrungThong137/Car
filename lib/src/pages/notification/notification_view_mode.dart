@@ -13,6 +13,7 @@ class NotificationViewModel extends BaseViewModel{
   }
 
   void getListCar(){
+    listCar.clear();
     final id= FirebaseAuth.instance.currentUser!.uid;
     FirebaseFirestore.instance.collection('notification')
     .where('idUser', isEqualTo: id)
