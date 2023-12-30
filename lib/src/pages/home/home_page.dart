@@ -9,6 +9,7 @@ import 'package:car_app/src/configs/widget/logocar.dart';
 import 'package:car_app/src/configs/widget/filed_search/textfile_search.dart';
 import 'package:car_app/src/configs/widget/title_row/title_row.dart';
 import 'package:car_app/src/pages/home/home_page_viewmodel.dart';
+import 'package:car_app/src/pages/routers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -145,7 +146,10 @@ class _HomePageState extends State<HomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset('assets/notification-bing.svg'),
+            InkWell(
+              onTap: () => Navigator.pushNamed(
+                context, Routers.bottomNavigatorScreen, arguments: 2),
+              child: SvgPicture.asset('assets/notification-bing.svg')),
             const SizedBox(width: 12,),
             SvgPicture.asset('assets/heart.svg'),
           ],

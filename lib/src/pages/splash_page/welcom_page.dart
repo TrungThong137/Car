@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Timer _startDelay() => _timer = Timer(const Duration(seconds: 2), _init);
 
   Future<void> goToPreview(BuildContext context) =>
-      Navigator.pushNamed(context, Routers.previewPage);
+      Navigator.pushNamed(context, Routers.signIn);
 
   Future<void> goToHome(BuildContext context) =>
       Navigator.pushNamed(context, Routers.bottomNavigatorScreen);
